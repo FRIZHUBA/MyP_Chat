@@ -1,0 +1,15 @@
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.GeneratedMSBuildEditorConfig.editorconfig
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.AssemblyInfoInputs.cache
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.AssemblyInfo.cs
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.csproj.CoreCompileInputs.cache
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.sourcelink.json
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/SocketServidor
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/SocketServidor.deps.json
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/SocketServidor.runtimeconfig.json
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/SocketServidor.dll
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/SocketServidor.pdb
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.dll
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/refint/SocketServidor.dll
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.pdb
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.genruntimeconfig.cache
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/ref/SocketServidor.dll
