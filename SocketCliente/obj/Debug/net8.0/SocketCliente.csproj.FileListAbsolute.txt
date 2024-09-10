@@ -1,0 +1,15 @@
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.GeneratedMSBuildEditorConfig.editorconfig
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.AssemblyInfoInputs.cache
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.AssemblyInfo.cs
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.csproj.CoreCompileInputs.cache
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.sourcelink.json
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/SocketCliente
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/SocketCliente.deps.json
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/SocketCliente.runtimeconfig.json
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/SocketCliente.dll
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/SocketCliente.pdb
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.dll
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/refint/SocketCliente.dll
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.pdb
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.genruntimeconfig.cache
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/ref/SocketCliente.dll
