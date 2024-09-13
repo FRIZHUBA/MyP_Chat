@@ -13,3 +13,6 @@
 /home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.pdb
 /home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.genruntimeconfig.cache
 /home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/ref/SocketCliente.dll
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.csproj.AssemblyReference.cache
+/home/fhuitronb/Documentos/M&P/SocketCliente/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/fhuitronb/Documentos/M&P/SocketCliente/obj/Debug/net8.0/SocketCliente.csproj.CopyComplete

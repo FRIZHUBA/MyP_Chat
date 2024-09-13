@@ -9,31 +9,32 @@ namespace SocketCliente {
 
         private Thread recibir;
         private Thread enviar;
-        private Socket? handler;
+        private Socket handler;
 
-        public Conectado(){
+        public Conectado(Socket socket){
 
-            this.recibir = new Thread(receive);
-            this.enviar = new Thread(send);
+            this.handler = socket;
+
+            this.recibir = new Thread(Receive);
+            this.enviar = new Thread(Send);
 
             this.recibir.Start();
             this.enviar.Start();
         }
 
-        public void receive(){
+        public void Receive(){
 
             while (true) {
 
                 string data = null;
-                byte[] bytes = null;
+                byte[] bytes = new byte[1024];
 
                 while (true) {
 
                     try {
 
-                        bytes = new byte[1024];
-                        int byteRec = this.handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, byteRec);
+                        int byteRec = handler.Receive(bytes);
+                        data += Encoding.UTF8.GetString(bytes, 0, byteRec);
 
                         if (data.IndexOf("<EOM>") > -1) break;
 
@@ -48,7 +49,7 @@ namespace SocketCliente {
             }
         }
 
-        public void send(){
+        public void Send(){
 
             string mensaje = "";
 
@@ -60,17 +61,15 @@ namespace SocketCliente {
 
                 if (mensaje != "exit") {
 
-                    byte[] msg = Encoding.ASCII.GetBytes(mensaje + "<EOM>");
-                    int byteSent = this.handler.Send(msg);
+                    byte[] msg = Encoding.UTF8.GetBytes(mensaje + "<EOM>");
+                    handler.Send(msg);
                 }
             }
 
-            this.handler.Shutdown(SocketShutdown.Both);
-            this.handler.Close();
+            handler.Shutdown(SocketShutdown.Both);
+            handler.Close();
 
             Environment.Exit(0);
         }
-
-        public Socket Handler { get => handler; set => handler = value; }
     }
 }

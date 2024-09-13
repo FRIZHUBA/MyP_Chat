@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Text;
 using System.Net;
 using System.Net.Sockets;
 
@@ -11,21 +10,47 @@ namespace SocketCliente {
 
             IPHostEntry host = Dns.GetHostEntry("localhost");
             IPAddress ipAddress = host.AddressList[0];
-            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 12000);
+            IPEndPoint remoteEP = new IPEndPoint(ipAddress, 12500);
 
             try {
 
-                Socket sender = new Socket(ipAddress.AddressFamily, SocketType.Stream, ProtocolType.Tcp);
+                Cliente cliente = new Cliente(ipAddress.AddressFamily, remoteEP);
+                cliente.Conectar();
+
+                bool userExist = true;
+
+                do {
+
+                    Console.WriteLine("Ingrese su nickname:");
+                    string nickname = Console.ReadLine();
+
+                    if (string.IsNullOrEmpty(nickname)) {
+                        
+                        Console.WriteLine("Su nickname no puede estar vacío");
+                        continue;
+                    }
+
+                    string respuesta = cliente.Identificar(nickname);
+
+                    if (respuesta == "USER_ALREADY_EXISTS") {
+
+                        Console.WriteLine($"El nombre de usuario '{nickname}' ya existe, por favor elija otro");
+                        userExist = true;
+
+                    } else if (respuesta == "SUCCESS") {
+
+                        Console.WriteLine($"Usuario '{nickname}' registrado exitosamente");
+                        userExist = false;
+
+                    } else {
+
+                        Console.WriteLine("Error desconocido");
+                        userExist = true;
+                    }
                 
-                sender.Connect(remoteEP);
+                } while (userExist);
 
-                Console.WriteLine("Ingrese su nickname");
-                string mensaje = Console.ReadLine();
-                byte[] msg = Encoding.ASCII.GetBytes(mensaje + "<EOM>");
-                sender.Send(msg);
-
-                Conectado c = new Conectado();
-                c.Handler = sender;
+                cliente.IniciarConectado();
 
             } catch (Exception e) {
 
