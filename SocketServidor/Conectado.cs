@@ -1,53 +1,71 @@
 using System;
 using System.Text;
-using System.Threading;
 using System.Net.Sockets;
+using System.Threading;
 
 namespace SocketServidor {
     class Conectado {
 
-        private string? nick;
+        private string nick;
+        private Socket handler;
         private Thread recibir;
-        private Socket? handler;
 
-        public Conectado() {
+        public Conectado(Socket socket, string username) {
 
-            this.recibir = new Thread(receive);
+            this.handler = socket;
+            this.nick = username;
+            
+            this.recibir = new Thread(Receive);
             this.recibir.Start();
         }
 
-        public void send(string mensaje) {
+        public void Send(string mensaje) {
 
-            byte[] msg = Encoding.ASCII.GetBytes(mensaje + "<EOM>");
-            int byteSent = this.handler.Send(msg);
+            byte[] msg = Encoding.UTF8.GetBytes(mensaje + "<EOM>");
+            handler.Send(msg);
 
-            Console.WriteLine("Enviado: " + msg);
+            Console.WriteLine("Enviado: " + mensaje);
         }
 
-        public void receive() {
+        public void Receive() {
 
-            while (true) {
+            while(true) {
 
-                string data = null;
-                byte[] bytes = null;
+                string data = RecibirDatos();
 
-                while (true) {
+                if (! string.IsNullOrEmpty(data)) {
 
-                    bytes = new byte[1024];
-                    int byteRec = this.handler.Receive(bytes);
-                    
-                    data += Encoding.ASCII.GetString(bytes, 0, byteRec);
-
-                    if (data.IndexOf("<EOM>") > -1) break;
+                    Console.WriteLine($"{nick}: {data}");
                 }
-
-                data = data.Replace("<EOM>", "");
-
-                Console.WriteLine(this.nick + ": " + data);
             }
         }
 
-        public string Nick { get => nick; set => nick = value; }
-        public Socket Handler { get => handler; set => handler = value; }
+        private string RecibirDatos() {
+
+            string data = "";
+            byte[] bytes = new byte[1024];
+
+            while (true) {
+
+                try {
+
+                    int byteRec = this.handler.Receive(bytes);
+
+                    data += Encoding.UTF8.GetString(bytes, 0, byteRec);
+
+                    if (data.IndexOf("<EOM>") > -1) break;
+
+                } catch (Exception e) {
+
+                    Console.WriteLine(e.ToString());
+                    return null;
+                }
+            }
+
+            return data.Replace("<EOM>", "").Trim();
+        }
+
+        public string Nick { get => nick; }
+        public Socket Handler { get => handler; }
     }
 }

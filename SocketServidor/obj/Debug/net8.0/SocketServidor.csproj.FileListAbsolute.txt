@@ -13,3 +13,6 @@
 /home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.pdb
 /home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.genruntimeconfig.cache
 /home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/ref/SocketServidor.dll
+/home/fhuitronb/Documentos/M&P/SocketServidor/bin/Debug/net8.0/Newtonsoft.Json.dll
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.csproj.AssemblyReference.cache
+/home/fhuitronb/Documentos/M&P/SocketServidor/obj/Debug/net8.0/SocketServidor.csproj.CopyComplete
