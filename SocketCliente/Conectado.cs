@@ -9,31 +9,44 @@ namespace SocketCliente {
 
         private Thread recibir;
         private Thread enviar;
-        private Socket? handler;
+        private Socket handler;
+        private static readonly List<ConsoleColor> colores = new List<ConsoleColor> {
+            ConsoleColor.Blue,
+            ConsoleColor.Green,
+            ConsoleColor.Yellow,
+            ConsoleColor.Magenta,
+            ConsoleColor.Cyan
+        };
 
-        public Conectado(){
+        private ConsoleColor colorAsignado;
+        private static Random random = new Random();
 
-            this.recibir = new Thread(receive);
-            this.enviar = new Thread(send);
+        public Conectado(Socket socket){
+
+            this.handler = socket;
+
+            this.colorAsignado = colores[random.Next(colores.Count)];
+
+            this.recibir = new Thread(Receive);
+            this.enviar = new Thread(Send);
 
             this.recibir.Start();
             this.enviar.Start();
         }
 
-        public void receive(){
+        public void Receive(){
 
             while (true) {
 
                 string data = null;
-                byte[] bytes = null;
+                byte[] bytes = new byte[1024];
 
                 while (true) {
 
                     try {
 
-                        bytes = new byte[1024];
-                        int byteRec = this.handler.Receive(bytes);
-                        data += Encoding.ASCII.GetString(bytes, 0, byteRec);
+                        int byteRec = handler.Receive(bytes);
+                        data += Encoding.UTF8.GetString(bytes, 0, byteRec);
 
                         if (data.IndexOf("<EOM>") > -1) break;
 
@@ -44,11 +57,34 @@ namespace SocketCliente {
                 }
 
                 data = data.Replace("<EOM>", "");
-                Console.WriteLine(data);
+
+                if (Mensaje.EsJsonValido(data)) {
+
+                    dynamic mensaje = Mensaje.Parsear<dynamic>(data);
+
+                    if (mensaje.type == "NEW_USER") {
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Nuevo usuario conectado: {mensaje.username}");
+                        Console.ResetColor();
+
+                    } else {
+
+                        Console.ForegroundColor = colorAsignado;
+                        Console.WriteLine($"{mensaje.username}: {mensaje.mensaje}");
+                        Console.ResetColor();
+                    }
+
+                } else {
+
+                    Console.ForegroundColor = colorAsignado;
+                    Console.WriteLine(data);
+                    Console.ResetColor();
+                }
             }
         }
 
-        public void send(){
+        public void Send(){
 
             string mensaje = "";
 
@@ -60,17 +96,14 @@ namespace SocketCliente {
 
                 if (mensaje != "exit") {
 
-                    byte[] msg = Encoding.ASCII.GetBytes(mensaje + "<EOM>");
-                    int byteSent = this.handler.Send(msg);
+                    byte[] msg = Encoding.UTF8.GetBytes(mensaje + "<EOM>");
+                    handler.Send(msg);
                 }
             }
 
-            this.handler.Shutdown(SocketShutdown.Both);
-            this.handler.Close();
-
+            handler.Shutdown(SocketShutdown.Both);
+            handler.Close();
             Environment.Exit(0);
         }
-
-        public Socket Handler { get => handler; set => handler = value; }
     }
 }

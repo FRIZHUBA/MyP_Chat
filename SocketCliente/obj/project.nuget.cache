@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "bD3v8qX74b8Cm5MF4n/xQWUVb7VvAPCpcBoPoSYAq0waeloljDc1LdGEds7FIxmpQwhn20cYIVAFj+M+wj/xCA==",
+  "dgSpecHash": "PNdmtISh4bmVkTu+bKfWzxF+ZYD49OHhVyBYkRABatC7H+/uw93xiRpzrXtYse44ElYKReLZf+v/8KRE5J/YzQ==",
   "success": true,
   "projectFilePath": "/home/fhuitronb/Documentos/M&P/SocketCliente/SocketCliente.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "/home/fhuitronb/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
