@@ -10,9 +10,10 @@ namespace SocketServidor {
 
                 return JsonConvert.DeserializeObject<T>(jsonText);
 
-            } catch {
+            } catch (Exception e) {
 
-                return default;
+                Console.WriteLine($"Error al deserializar el JSON: {e.Message}");
+                return default(T);
             }
         }
 
@@ -40,7 +41,6 @@ namespace SocketServidor {
     } 
 
     class IdentifyMessage {
-
         public string Type { get; set; }
         public string Username { get; set; }
     }

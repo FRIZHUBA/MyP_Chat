@@ -9,13 +9,18 @@ namespace SocketServidor {
         private string nick;
         private Socket handler;
         private Thread recibir;
+        private ConsoleColor color;
 
-        public Conectado(Socket socket, string username) {
+        public Conectado(Socket socket, string username, ConsoleColor color) {
 
             this.handler = socket;
             this.nick = username;
-            
-            this.recibir = new Thread(Receive);
+            this.color = color;
+        }
+
+        public void IniciarRecepcion(ClienteManager clienteManager) {
+
+            this.recibir = new Thread( () => Receive(clienteManager) );
             this.recibir.Start();
         }
 
@@ -23,11 +28,9 @@ namespace SocketServidor {
 
             byte[] msg = Encoding.UTF8.GetBytes(mensaje + "<EOM>");
             handler.Send(msg);
-
-            Console.WriteLine("Enviado: " + mensaje);
         }
 
-        public void Receive() {
+        public void Receive(ClienteManager clienteManager) {
 
             while(true) {
 
@@ -35,7 +38,29 @@ namespace SocketServidor {
 
                 if (! string.IsNullOrEmpty(data)) {
 
-                    Console.WriteLine($"{nick}: {data}");
+                    if (EsJsonValido(data)) {
+
+                        IdentifyMessage mensaje = Mensaje.Parsear<IdentifyMessage>(data);
+
+                        if (mensaje != null && mensaje.Type == "NEW_USER") {
+
+                            Console.ForegroundColor = ConsoleColor.Red;
+                            Console.WriteLine($"Nuevo usuario conectado: {mensaje.Username}");
+                            Console.ResetColor();
+                            
+                        } else {
+
+                            Console.WriteLine("Error al deserializar el mensaje");
+                        }
+
+                    } else {
+
+                        Console.ForegroundColor = color;
+                        Console.WriteLine($"{nick}: {data}");
+                        Console.ResetColor();
+
+                        clienteManager.EnviarGeneral($"{nick}: {data}", this);
+                    }
                 }
             }
         }
@@ -63,6 +88,28 @@ namespace SocketServidor {
             }
 
             return data.Replace("<EOM>", "").Trim();
+        }
+
+        private bool EsJsonValido(string data) {
+
+            data = data.Trim();
+
+            if ((data.StartsWith("{") && data.EndsWith("}")) || 
+                (data.StartsWith("[") && data.EndsWith("]"))) {
+
+                try {
+
+                    var obj = Newtonsoft.Json.Linq.JToken.Parse(data);
+
+                    return true;
+
+                } catch (Exception) {
+
+                    return false;
+                }
+            }
+
+            return false;
         }
 
         public string Nick { get => nick; }

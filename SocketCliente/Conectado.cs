@@ -10,10 +10,22 @@ namespace SocketCliente {
         private Thread recibir;
         private Thread enviar;
         private Socket handler;
+        private static readonly List<ConsoleColor> colores = new List<ConsoleColor> {
+            ConsoleColor.Blue,
+            ConsoleColor.Green,
+            ConsoleColor.Yellow,
+            ConsoleColor.Magenta,
+            ConsoleColor.Cyan
+        };
+
+        private ConsoleColor colorAsignado;
+        private static Random random = new Random();
 
         public Conectado(Socket socket){
 
             this.handler = socket;
+
+            this.colorAsignado = colores[random.Next(colores.Count)];
 
             this.recibir = new Thread(Receive);
             this.enviar = new Thread(Send);
@@ -45,7 +57,30 @@ namespace SocketCliente {
                 }
 
                 data = data.Replace("<EOM>", "");
-                Console.WriteLine(data);
+
+                if (Mensaje.EsJsonValido(data)) {
+
+                    dynamic mensaje = Mensaje.Parsear<dynamic>(data);
+
+                    if (mensaje.type == "NEW_USER") {
+
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        Console.WriteLine($"Nuevo usuario conectado: {mensaje.username}");
+                        Console.ResetColor();
+
+                    } else {
+
+                        Console.ForegroundColor = colorAsignado;
+                        Console.WriteLine($"{mensaje.username}: {mensaje.mensaje}");
+                        Console.ResetColor();
+                    }
+
+                } else {
+
+                    Console.ForegroundColor = colorAsignado;
+                    Console.WriteLine(data);
+                    Console.ResetColor();
+                }
             }
         }
 
@@ -68,7 +103,6 @@ namespace SocketCliente {
 
             handler.Shutdown(SocketShutdown.Both);
             handler.Close();
-
             Environment.Exit(0);
         }
     }

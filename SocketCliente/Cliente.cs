@@ -33,6 +33,13 @@ namespace SocketCliente {
             int bytesRec = handler.Receive(bytes);
             string serverResp = Encoding.UTF8.GetString(bytes, 0, bytesRec).Replace("<EOM>", "").Trim();
 
+            dynamic respuesta = Mensaje.Parsear<dynamic>(serverResp);
+
+            if (respuesta.type == "NEW_USER") {
+
+                Console.WriteLine($"Nuevo usuario conectado: {respuesta.username}");
+            }
+            
             Response response = Mensaje.Parsear<Response>(serverResp);
 
             return response?.Result ?? "ERROR";
